@@ -12,8 +12,11 @@ public class UserService {
 
     private UserRepository userRepository;
 
+    private PasswordEncoder encoder;
+
     public User createUser(CreateUserDTO request) {
-        User user = request.user();
+        String hashedPassword = encoder.encode(request.getPassword());
+        User user = request.user(hashedPassword);
         userRepository.save(user);
         return user;
     }
